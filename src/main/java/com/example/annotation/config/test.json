@@ -1,0 +1,92 @@
+
+contact1, buidingname:beijing, floorNum:23
+contact2, buildingname:shanghai, floorNum:30
+        
+        != beijing 并且 !=23
+        
+
+{
+  "query": {
+    "bool": {
+      "and": [{
+        "bool": {
+          "or": [{
+            "bool": {
+              "and": [{
+                "bool": {
+                  "context": "address",
+                  "and": [{
+                    "bool": {
+                      "and": [{
+                        "start_with": {
+                          "field": "city",
+                          "value": "beijing"
+                        }
+                      }, {
+                        "equal": {
+                          "field": "locationType",
+                          "value": "static"
+                        }
+                      }]
+                    }
+                  }]
+                }
+              }, {
+                "bool": {
+                  "and": [{
+                    "bool": {
+                      "not": [{
+                        "bool": {
+                          "context": "address",
+                          "and": [{
+                            "contain": {
+                              "field": "floorNo",
+                              "value": "23"
+                            }
+                          }, {
+                            "equal": {
+                              "field": "locationType",
+                              "value": "lastknown"
+                            }
+                          }]
+                        }
+                      }]
+                    }
+                  }, {
+                    "bool": {
+                      "not": [{
+                        "bool": {
+                          "context": "address",
+                          "and": [{
+                            "in": {
+                              "field": "locationId",
+                              "value": [939399541948435]
+                            }
+                          }, {
+                            "equal": {
+                              "field": "locationType",
+                              "value": "lastknown"
+                            }
+                          }]
+                        }
+                      }]
+                    }
+                  }]
+                }
+              }]
+            }
+          }, {
+            "bool": {
+              "and": [{
+                "start_with": {
+                  "field": "externalId",
+                  "value": "TTTTTT"
+                }
+              }]
+            }
+          }]
+        }
+      }]
+    }
+  }
+}
